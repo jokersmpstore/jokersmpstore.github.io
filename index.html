@@ -606,9 +606,38 @@
             document.getElementById(category + '-section').classList.remove('hidden');
         }
 
-        function buyProduct(name, price) {
-            alert(`You selected ${name} for $${price}!\n\nThis is where you'd integrate your payment system (PayPal, Stripe, Tebex, etc.)`);
-        }
+        <script>
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+    }
+
+    function showCategory(category) {
+        document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
+        event.target.closest('.category').classList.add('active');
+
+        document.getElementById('ranks-section').classList.add('hidden');
+        document.getElementById('crates-section').classList.add('hidden');
+        document.getElementById(category + '-section').classList.remove('hidden');
+    }
+
+    function buyProduct(name, price) {
+        const confirmPurchase = confirm(
+            `You are about to purchase:\n\n${name}\n$${price}\n\nYou will be redirected to PayPal to complete your payment.`
+        );
+
+        if (!confirmPurchase) return;
+
+        const paypalUrl = `https://paypal.me/JokerSMP/${price}`;
+        window.location.href = paypalUrl;
+    }
+</script>
+
     </script>
 </body>
 </html>
