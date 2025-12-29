@@ -2,576 +2,576 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joker SMP Store</title>
-
     <link rel="icon" href="/favicon.ico">
-
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
-        color: #fff;
-        min-height: 100vh;
-        overflow-x: hidden;
-    }
-
-    .stars {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    .star {
-        position: absolute;
-        width: 2px;
-        height: 2px;
-        background: #fff;
-        border-radius: 50%;
-        opacity: 0.5;
-        animation: twinkle 3s infinite;
-    }
-
-    @keyframes twinkle {
-        0%, 100% { opacity: 0.3; }
-        50% { opacity: 1; }
-    }
-
-    header {
-        position: relative;
-        z-index: 10;
-        padding: 2rem;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
-        border-bottom: 2px solid rgba(138, 43, 226, 0.3);
-    }
-
-    .logo {
-        max-width: 200px;
-        margin-bottom: 1rem;
-        filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.6));
-        animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-
-    h1 {
-        font-size: 3rem;
-        background: linear-gradient(45deg, #ff6b6b, #a855f7, #3b82f6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
-        margin-bottom: 0.5rem;
-    }
-
-    .tagline {
-        font-size: 1.2rem;
-        color: #a0aec0;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-    }
-
-    .main-layout {
-        display: flex;
-        position: relative;
-        z-index: 10;
-        max-width: 1600px;
-        margin: 0 auto;
-    }
-
-    .sidebar {
-        width: 280px;
-        background: rgba(26, 31, 58, 0.6);
-        backdrop-filter: blur(10px);
-        border-right: 2px solid rgba(138, 43, 226, 0.3);
-        padding: 2rem 0;
-        min-height: calc(100vh - 200px);
-    }
-
-    .category {
-        padding: 1.5rem 2rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-left: 4px solid transparent;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .category:hover {
-        background: rgba(168, 85, 247, 0.1);
-        border-left-color: #a855f7;
-    }
-
-    .category.active {
-        background: rgba(168, 85, 247, 0.2);
-        border-left-color: #a855f7;
-    }
-
-    .category-icon {
-        width: 40px;
-        height: 40px;
-        object-fit: contain;
-        filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
-    }
-
-    .category-name {
-        font-size: 1.3rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .container {
-        flex: 1;
-        padding: 4rem 2rem;
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        background: linear-gradient(45deg, #fff, #a855f7);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 2rem;
-        text-align: center;
-    }
-
-    .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-
-    .product-card {
-        background: rgba(26, 31, 58, 0.6);
-        border-radius: 20px;
-        padding: 2rem;
-        border: 2px solid rgba(138, 43, 226, 0.2);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .product-card::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .product-card:hover::before {
-        opacity: 1;
-    }
-
-    .product-card:hover {
-        transform: translateY(-10px);
-        border-color: rgba(168, 85, 247, 0.6);
-        box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
-    }
-
-    .product-image {
-        width: 100%;
-        height: 200px;
-        object-fit: contain;
-        margin-bottom: 1.5rem;
-        filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.4));
-        transition: transform 0.3s ease;
-    }
-
-    .product-card:hover .product-image {
-        transform: scale(1.1) rotate(5deg);
-    }
-
-    .product-name {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #a855f7);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .product-price {
-        font-size: 2rem;
-        color: #10b981;
-        margin-bottom: 1.5rem;
-        font-weight: bold;
-        text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-    }
-
-    .perks-list {
-        margin-bottom: 1.5rem;
-        text-align: left;
-    }
-
-    .perk {
-        padding: 0.5rem 0;
-        color: #cbd5e0;
-        font-size: 0.95rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .perk::before {
-        content: '✦';
-        color: #a855f7;
-        font-size: 1.2rem;
-    }
-
-    .buy-button {
-        width: 100%;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #fff;
-        background: linear-gradient(45deg, #a855f7, #3b82f6);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .buy-button::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
-
-    .buy-button:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .buy-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
-    }
-
-    .buy-button span {
-        position: relative;
-        z-index: 1;
-    }
-
-    .rank-badge {
-        display: inline-block;
-        padding: 0.3rem 1rem;
-        background: linear-gradient(45deg, #fbbf24, #f59e0b);
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-    }
-
-    footer {
-        position: relative;
-        z-index: 10;
-        text-align: center;
-        padding: 2rem;
-        margin-top: 4rem;
-        background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
-        border-top: 2px solid rgba(138, 43, 226, 0.3);
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .mobile-menu-btn {
-        display: none;
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 100;
-        padding: 1rem;
-        background: linear-gradient(45deg, #a855f7, #3b82f6);
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-        box-shadow: 0 4px 20px rgba(168, 85, 247, 0.5);
-    }
-
-    @media (max-width: 1024px) {
-        h1 {
-            font-size: 2rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        .main-layout {
-            flex-direction: column;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-
-        .sidebar {
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            min-height: auto;
-            border-right: none;
-            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
-            display: flex;
-            overflow-x: auto;
-            padding: 1rem 0;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
-
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+        }
+        .logo {
+            max-width: 200px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .main-layout {
+            display: flex;
+            position: relative;
+            z-index: 10;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .sidebar {
+            width: 280px;
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(10px);
+            border-right: 2px solid rgba(138, 43, 226, 0.3);
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+        }
         .category {
-            flex-direction: column;
-            min-width: 120px;
-            padding: 1rem;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .category:hover {
+            background: rgba(168, 85, 247, 0.1);
+            border-left-color: #a855f7;
+        }
+        .category.active {
+            background: rgba(168, 85, 247, 0.2);
+            border-left-color: #a855f7;
+        }
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+        }
+        .category-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .container {
+            flex: 1;
+            padding: 4rem 2rem;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #fff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
             text-align: center;
         }
-
-        .category-name {
-            font-size: 1rem;
-        }
-
         .products-grid {
-            grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
-    }
-</style>
+        .product-card {
+            background: rgba(26, 31, 58, 0.6);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.4));
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .product-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .product-price {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        .perks-list {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .perk {
+            padding: 0.5rem 0;
+            color: #cbd5e0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .perk::before {
+            content: '✦';
+            color: #a855f7;
+            font-size: 1.2rem;
+        }
+        .buy-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(45deg, #a855f7, #3b82f6);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .buy-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .buy-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        .buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+        }
+        .buy-button span {
+            position: relative;
+            z-index: 1;
+        }
+        .rank-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(138, 43, 226, 0.3);
+        }
+        .hidden {
+            display: none;
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            padding: 1rem;
+            background: linear-gradient(45deg, #a855f7, #3b82f6);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.5);
+        }
+        @media (max-width: 1024px) {
+            h1 { font-size: 2rem; }
+            .main-layout { flex-direction: column; }
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                border-right: none;
+                border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+                display: flex;
+                overflow-x: auto;
+                padding: 1rem 0;
+            }
+            .category {
+                flex-direction: column;
+                min-width: 120px;
+                padding: 1rem;
+                text-align: center;
+            }
+            .category-name { font-size: 1rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+    <div class="stars" id="stars"></div>
 
-<div class="stars" id="stars"></div>
+    <header>
+        <img src="logo.png" alt="Joker SMP Logo" class="logo">
+        <h1>Joker SMP Store</h1>
+        <p class="tagline">Unlock Epic Rewards</p>
+    </header>
 
-<header>
-    <img src="logo.png">
-    <h1>Joker SMP Store</h1>
-</header>
-
-<div id="ranks-section">
-    <h2 class="section-title">Server Ranks</h2>
-    <div class="products-grid">
-        <div class="product-card">
-            <div class="rank-badge">Knight</div>
-            <h2 class="product-name">Knight Rank</h2>
-            <p class="product-price">$5.99</p>
-            <div class="perks-list">
-                <div class="perk">[Knight] prefix in chat</div>
-                <div class="perk">/nick - Custom nickname with colors</div>
-                <div class="perk">3 homes with /sethome</div>
-                <div class="perk">/tpa and /tpahere commands</div>
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="category active" onclick="showCategory('ranks')">
+                <img src="ranks.png" alt="Ranks" class="category-icon">
+                <span class="category-name">Ranks</span>
             </div>
-            <button class="buy-button" onclick="buyProduct('Knight Rank', 5.99)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <div class="rank-badge" style="background: linear-gradient(45deg, #c084fc, #a855f7);">Prince</div>
-            <h2 class="product-name">Prince Rank</h2>
-            <p class="product-price">$10.99</p>
-            <div class="perks-list">
-                <div class="perk">All Knight perks included</div>
-                <div class="perk">[Prince] prefix with color codes</div>
-                <div class="perk">5 homes with /sethome</div>
-                <div class="perk">/ec - Access enderchest anywhere</div>
-                <div class="perk">/workbench - Portable crafting</div>
+            <div class="category" onclick="showCategory('crates')">
+                <img src="crates.png" alt="Crates" class="category-icon">
+                <span class="category-name">Crates</span>
             </div>
-            <button class="buy-button" onclick="buyProduct('Prince Rank', 10.99)"><span>Buy Now</span></button>
-        </div>
+        </aside>
 
-        <div class="product-card">
-            <div class="rank-badge" style="background: linear-gradient(45deg, #fbbf24, #f59e0b);">King</div>
-            <h2 class="product-name">King Rank</h2>
-            <p class="product-price">$20.99</p>
-            <div class="perks-list">
-                <div class="perk">All Prince perks included</div>
-                <div class="perk">[King] prefix with color codes</div>
-                <div class="perk">10 homes with /sethome</div>
-                <div class="perk">/hat - Wear any block as hat</div>
-                <div class="perk">Color codes in chat (&c, &b, etc.)</div>
-            </div>
-            <button class="buy-button" onclick="buyProduct('King Rank', 20.99)"><span>Buy Now</span></button>
-        </div>
+        <div class="container">
+            <div id="ranks-section">
+                <h2 class="section-title">Server Ranks</h2>
+                <div class="products-grid">
+                    <!-- Knight Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge">Knight</div>
+                        <h2 class="product-name">Knight Rank</h2>
+                        <p class="product-price">$5.99</p>
+                        <div class="perks-list">
+                            <div class="perk">[Knight] prefix in chat</div>
+                            <div class="perk">/nick - Custom nickname with colors</div>
+                            <div class="perk">3 homes with /sethome</div>
+                            <div class="perk">/tpa and /tpahere commands</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('Knight Rank', 5.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
 
-        <div class="product-card">
-            <div class="rank-badge" style="background: linear-gradient(45deg, #ec4899, #a855f7);">Jester</div>
-            <h2 class="product-name">Jester Rank</h2>
-            <p class="product-price">$26.99</p>
-            <div class="perks-list">
-                <div class="perk">All King perks included</div>
-                <div class="perk">[Jester] prefix with color codes</div>
-                <div class="perk">15 homes with /sethome</div>
-                <div class="perk">/skull [player] - Get player heads</div>
-                <div class="perk">Format codes in chat (&l, &o, &k)</div>
-            </div>
-            <button class="buy-button" onclick="buyProduct('Jester Rank', 26.99)"><span>Buy Now</span></button>
-        </div>
+                    <!-- Prince Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge" style="background: linear-gradient(45deg, #c084fc, #a855f7);">Prince</div>
+                        <h2 class="product-name">Prince Rank</h2>
+                        <p class="product-price">$10.99</p>
+                        <div class="perks-list">
+                            <div class="perk">All Knight perks included</div>
+                            <div class="perk">[Prince] prefix with color codes</div>
+                            <div class="perk">5 homes with /sethome</div>
+                            <div class="perk">/ec - Access enderchest anywhere</div>
+                            <div class="perk">/workbench - Portable crafting</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('Prince Rank', 10.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
 
-        <div class="product-card">
-            <div class="rank-badge" style="background: linear-gradient(45deg, #ec4899, #8b5cf6, #3b82f6);">Jester+</div>
-            <h2 class="product-name">Jester+ Rank</h2>
-            <p class="product-price">$30.99</p>
-            <div class="perks-list">
-                <div class="perk">All Jester perks included</div>
-                <div class="perk">[Jester+] prefix with color codes</div>
-                <div class="perk">20 homes with /sethome</div>
-                <div class="perk">/back - Return to death/tp location</div>
-                <div class="perk">Hex color codes in chat (&#rrggbb)</div>
-            </div>
-            <button class="buy-button" onclick="buyProduct('Jester+ Rank', 30.99)"><span>Buy Now</span></button>
-        </div>
+                    <!-- King Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge" style="background: linear-gradient(45deg, #fbbf24, #f59e0b);">King</div>
+                        <h2 class="product-name">King Rank</h2>
+                        <p class="product-price">$20.99</p>
+                        <div class="perks-list">
+                            <div class="perk">All Prince perks included</div>
+                            <div class="perk">[King] prefix with color codes</div>
+                            <div class="perk">10 homes with /sethome</div>
+                            <div class="perk">/hat - Wear any block as hat</div>
+                            <div class="perk">Color codes in chat (&amp;c, &amp;b, etc.)</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('King Rank', 20.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
 
-        <div class="product-card">
-            <div class="rank-badge" style="background: linear-gradient(45deg, #b91c1c, #dc2626, #991b1b);">Joker</div>
-            <h2 class="product-name">Joker Rank</h2>
-            <p class="product-price">$38.99</p>
-            <div class="perks-list">
-                <div class="perk">All Jester+ perks included</div>
-                <div class="perk">[Joker] prefix with color codes</div>
-                <div class="perk">30 homes with /sethome</div>
-                <div class="perk">/near - See nearby players</div>
-                <div class="perk">/ignore - Ignore players in chat</div>
-            </div>
-            <button class="buy-button" onclick="buyProduct('Joker Rank', 38.99)"><span>Buy Now</span></button>
-        </div>
+                    <!-- Jester Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge" style="background: linear-gradient(45deg, #ec4899, #a855f7);">Jester</div>
+                        <h2 class="product-name">Jester Rank</h2>
+                        <p class="product-price">$26.99</p>
+                        <div class="perks-list">
+                            <div class="perk">All King perks included</div>
+                            <div class="perk">[Jester] prefix with color codes</div>
+                            <div class="perk">15 homes with /sethome</div>
+                            <div class="perk">/skull [player] - Get player heads</div>
+                            <div class="perk">Format codes in chat (&amp;l, &amp;o, &amp;k)</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('Jester Rank', 26.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
 
-        <div class="product-card">
-            <div class="rank-badge" style="background: linear-gradient(45deg, #b91c1c, #dc2626, #fbbf24, #991b1b);">Joker+</div>
-            <h2 class="product-name">Joker+ Rank</h2>
-            <p class="product-price">$50.99</p>
-            <div class="perks-list">
-                <div class="perk">All Joker perks included</div>
-                <div class="perk">[Joker+] ultimate prefix with colors</div>
-                <div class="perk">50 homes with /sethome</div>
-                <div class="perk">/disposal - Portable trash can</div>
-                <div class="perk">Full chat formatting & hex colors</div>
+                    <!-- Jester+ Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge" style="background: linear-gradient(45deg, #ec4899, #8b5cf6, #3b82f6);">Jester+</div>
+                        <h2 class="product-name">Jester+ Rank</h2>
+                        <p class="product-price">$30.99</p>
+                        <div class="perks-list">
+                            <div class="perk">All Jester perks included</div>
+                            <div class="perk">[Jester+] prefix with color codes</div>
+                            <div class="perk">20 homes with /sethome</div>
+                            <div class="perk">/back - Return to death/tp location</div>
+                            <div class="perk">Hex color codes in chat (&amp;#rrggbb)</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('Jester+ Rank', 30.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Joker Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge" style="background: linear-gradient(45deg, #b91c1c, #dc2626, #991b1b);">Joker</div>
+                        <h2 class="product-name">Joker Rank</h2>
+                        <p class="product-price">$38.99</p>
+                        <div class="perks-list">
+                            <div class="perk">All Jester+ perks included</div>
+                            <div class="perk">[Joker] prefix with color codes</div>
+                            <div class="perk">30 homes with /sethome</div>
+                            <div class="perk">/near - See nearby players</div>
+                            <div class="perk">/ignore - Ignore players in chat</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('Joker Rank', 38.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Joker+ Rank -->
+                    <div class="product-card">
+                        <div class="rank-badge" style="background: linear-gradient(45deg, #b91c1c, #dc2626, #fbbf24, #991b1b);">Joker+</div>
+                        <h2 class="product-name">Joker+ Rank</h2>
+                        <p class="product-price">$50.99</p>
+                        <div class="perks-list">
+                            <div class="perk">All Joker perks included</div>
+                            <div class="perk">[Joker+] ultimate prefix with colors</div>
+                            <div class="perk">50 homes with /sethome</div>
+                            <div class="perk">/disposal - Portable trash can</div>
+                            <div class="perk">Full chat formatting &amp; hex colors</div>
+                        </div>
+                        <button class="buy-button" onclick="buyProduct('Joker+ Rank', 50.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <button class="buy-button" onclick="buyProduct('Joker+ Rank', 50.99)"><span>Buy Now</span></button>
+
+            <div id="crates-section" class="hidden">
+                <h2 class="section-title">Loot Crates</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <img src="bloodlust.png" alt="Bloodlust Crate" class="product-image">
+                        <h2 class="product-name">Bloodlust Crate</h2>
+                        <p class="product-price">$4.99</p>
+                        <button class="buy-button" onclick="buyProduct('Bloodlust Crate', 4.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="waterfall.png" alt="Waterfall Crate" class="product-image">
+                        <h2 class="product-name">Waterfall Crate</h2>
+                        <p class="product-price">$4.99</p>
+                        <button class="buy-button" onclick="buyProduct('Waterfall Crate', 4.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="inferno.png" alt="Inferno Crate" class="product-image">
+                        <h2 class="product-name">Inferno Crate</h2>
+                        <p class="product-price">$2.50</p>
+                        <button class="buy-button" onclick="buyProduct('Inferno Crate', 2.50)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="sunfire.png" alt="Sunfire Crate" class="product-image">
+                        <h2 class="product-name">Sunfire Crate</h2>
+                        <p class="product-price">$2.50</p>
+                        <button class="buy-button" onclick="buyProduct('Sunfire Crate', 2.50)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="sentry.png" alt="Sentry Crate" class="product-image">
+                        <h2 class="product-name">Sentry Crate</h2>
+                        <p class="product-price">$1.99</p>
+                        <button class="buy-button" onclick="buyProduct('Sentry Crate', 1.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="sky.png" alt="Sky Crate" class="product-image">
+                        <h2 class="product-name">Sky Crate</h2>
+                        <p class="product-price">$2.50</p>
+                        <button class="buy-button" onclick="buyProduct('Sky Crate', 2.50)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="iron.png" alt="Iron Crate" class="product-image">
+                        <h2 class="product-name">Iron Crate</h2>
+                        <p class="product-price">$2.50</p>
+                        <button class="buy-button" onclick="buyProduct('Iron Crate', 2.50)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="seasonal.png" alt="Seasonal Crate" class="product-image">
+                        <h2 class="product-name">Seasonal Crate</h2>
+                        <p class="product-price">$4.99</p>
+                        <button class="buy-button" onclick="buyProduct('Seasonal Crate', 4.99)">
+                            <span>Buy Now</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="crates-section" class="hidden">
-    <h2 class="section-title">Loot Crates</h2>
-    <div class="products-grid">
-        <div class="product-card">
-            <img src="bloodlust.png" alt="Bloodlust Crate" class="product-image">
-            <h2 class="product-name">Bloodlust Crate</h2>
-            <p class="product-price">$4.99</p>
-            <button class="buy-button" onclick="buyProduct('Bloodlust Crate', 4.99)"><span>Buy Now</span></button>
-        </div>
+    <footer>
+        <p>&copy; 2025 Joker SMP. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; color: #a0aec0; font-size: 0.9rem;">
+            All ranks are EULA compliant and contain only cosmetic perks
+        </p>
+    </footer>
 
-        <div class="product-card">
-            <img src="waterfall.png" alt="Waterfall Crate" class="product-image">
-            <h2 class="product-name">Waterfall Crate</h2>
-            <p class="product-price">$4.99</p>
-            <button class="buy-button" onclick="buyProduct('Waterfall Crate', 4.99)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <img src="inferno.png" alt="Inferno Crate" class="product-image">
-            <h2 class="product-name">Inferno Crate</h2>
-            <p class="product-price">$2.50</p>
-            <button class="buy-button" onclick="buyProduct('Inferno Crate', 2.50)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <img src="sunfire.png" alt="Sunfire Crate" class="product-image">
-            <h2 class="product-name">Sunfire Crate</h2>
-            <p class="product-price">$2.50</p>
-            <button class="buy-button" onclick="buyProduct('Sunfire Crate', 2.50)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <img src="sentry.png" alt="Sentry Crate" class="product-image">
-            <h2 class="product-name">Sentry Crate</h2>
-            <p class="product-price">$1.99</p>
-            <button class="buy-button" onclick="buyProduct('Sentry Crate', 1.99)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <img src="sky.png" alt="Sky Crate" class="product-image">
-            <h2 class="product-name">Sky Crate</h2>
-            <p class="product-price">$2.50</p>
-            <button class="buy-button" onclick="buyProduct('Sky Crate', 2.50)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <img src="iron.png" alt="Iron Crate" class="product-image">
-            <h2 class="product-name">Iron Crate</h2>
-            <p class="product-price">$2.50</p>
-            <button class="buy-button" onclick="buyProduct('Iron Crate', 2.50)"><span>Buy Now</span></button>
-        </div>
-
-        <div class="product-card">
-            <img src="seasonal.png" alt="Seasonal Crate" class="product-image">
-            <h2 class="product-name">Seasonal Crate</h2>
-            <p class="product-price">$4.99</p>
-            <button class="buy-button" onclick="buyProduct('Seasonal Crate', 4.99)"><span>Buy Now</span></button>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    const starsContainer = document.getElementById('stars');
-    for (let i = 0; i < 100; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 3 + 's';
-        starsContainer.appendChild(star);
-    }
-
-    function showCategory(category, element) {
-        document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
-        element.classList.add('active');
-
-        document.getElementById('ranks-section').classList.add('hidden');
-        document.getElementById('crates-section').classList.add('hidden');
-        document.getElementById(category + '-section').classList.remove('hidden');
-    }
-
-    function buyProduct(name, price) {
-        const message = `
-🚨🚨PLEASE READ THIS BEFORE PURCHASING🚨🚨
-Please join https://discord.gg/V6pSjFRutG to claim your items. 
-Once you join, please create a purchase ticket with proof of your purchase and what you want. 
-Our order team will get your items within 10 minutes.
-        
-You are about to purchase: ${name} for $${price}.
-        `;
-        if (confirm(message)) {
-            window.location.href = `https://paypal.me/JokerSMP/${price}`;
+    <script>
+        // Generate background stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
         }
-    }
-</script>
 
+        // Category switching
+        function showCategory(category) {
+            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
+            event.target.closest('.category').classList.add('active');
+
+            document.getElementById('ranks-section').classList.add('hidden');
+            document.getElementById('crates-section').classList.add('hidden');
+            document.getElementById(category + '-section').classList.remove('hidden');
+        }
+
+        // Purchase handler
+        function buyProduct(name, price) {
+            const message = `🚨🚨PLEASE READ THIS BEFORE PURCHASING🚨🚨\n\nPlease join https://discord.gg/V6pSjFRutG to claim your items.\nOnce you join, please create a purchase ticket with proof of your purchase and what you want.\nOur order team will get your items within 10 minutes.\n\nYou are about to purchase: ${name} for $${price}.`;
+
+            if (confirm(message)) {
+                window.location.href = `https://paypal.me/JokerSMP/${price}`;
+            }
+        }
+    </script>
 </body>
 </html>
