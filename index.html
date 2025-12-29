@@ -586,27 +586,7 @@
         <p style="margin-top: 0.5rem; color: #a0aec0; font-size: 0.9rem;">All ranks are EULA compliant and contain only cosmetic perks</p>
     </footer>
 
-    <script>
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starsContainer.appendChild(star);
-        }
-
-        function showCategory(category) {
-            document.querySelectorAll('.category').forEach(cat => cat.classList.remove('active'));
-            event.target.closest('.category').classList.add('active');
-            
-            document.getElementById('ranks-section').classList.add('hidden');
-            document.getElementById('crates-section').classList.add('hidden');
-            document.getElementById(category + '-section').classList.remove('hidden');
-        }
-
-        <script>
+<script>
     const starsContainer = document.getElementById('stars');
     for (let i = 0; i < 100; i++) {
         const star = document.createElement('div');
@@ -627,14 +607,17 @@
     }
 
     function buyProduct(name, price) {
-        const confirmPurchase = confirm(
-            `You are about to purchase:\n\n${name}\n$${price}\n\nYou will be redirected to PayPal to complete your payment.`
-        );
-
-        if (!confirmPurchase) return;
-
-        const paypalUrl = `https://paypal.me/JokerSMP/${price}`;
-        window.location.href = paypalUrl;
+        const message = `
+🚨🚨PLEASE READ THIS BEFORE PURCHASING🚨🚨
+Please join https://discord.gg/V6pSjFRutG to claim your items. 
+Once you join, please create a purchase ticket with proof of your purchase and what you want. 
+Our order team will get your items within 10 minutes.
+        
+You are about to purchase: ${name} for $${price}.
+        `;
+        if (confirm(message)) {
+            window.location.href = `https://paypal.me/JokerSMP/${price}`;
+        }
     }
 </script>
 
